@@ -122,7 +122,8 @@ Provides a command-line workflow for onboarding company documents.
 
 ```mermaid
 flowchart TD
-    A["Company Financial Statement / Credit PDF"]
+    A["Company Financial
+Statement / Credit PDF"]
     B["PDF Text Extraction"]
     C["Document Chunking"]
     D["HuggingFace Embedding Model"]
