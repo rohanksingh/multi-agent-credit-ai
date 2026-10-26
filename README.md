@@ -30,6 +30,7 @@ The application supports:
 ## 2. System Architecture
 
 ```mermaid
+
 flowchart TB
     A["User Question"]
     B["Main Orchestrator"]
@@ -57,6 +58,7 @@ flowchart TB
     class D,E agent
     class F,G,H data
     class I output
+```
 
 
 
