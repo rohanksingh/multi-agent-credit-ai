@@ -29,40 +29,41 @@ The application supports:
 
 ## 2. System Architecture
 
-```text
-                    USER QUESTION
-                          |
-                          v
-                 MAIN ORCHESTRATOR
-                          |
-                Identify Company
-                Determine Intent
-                Select AI Agents
-                          |
-              +-----------+-----------+
-              |                       |
-              v                       v
-       FINANCIAL RAG AGENT      CREDIT RAG AGENT
-              |                       |
-              v                       v
-       Financial Statement       Credit Report
-          Retrieval                Retrieval
-              |                       |
-              +-----------+-----------+
-                          |
-                          v
-                    CHROMADB
-                 Vector Database
-                          |
-                          v
-                   GROQ LLM
-                          |
-                          v
-                 SYNTHESIS AGENT
-                          |
-                          v
-                STRUCTURED REPORT
+
+
+```mermaid
+flowchart TD
+    A["User Question"] --> B["Main Orchestrator"]
+
+    B --> C["Identify Company & User Intent"]
+    C --> D{"Select Required Agents"}
+
+    D --> E["Financial RAG Agent"]
+    D --> F["Credit RAG Agent"]
+
+    E --> G["Financial Statement Retrieval"]
+    F --> H["Credit Report Retrieval"]
+
+    G --> I[("ChromaDB Vector Database")]
+    H --> I
+
+    I --> J["Groq LLM Analysis"]
+    J --> K["LangGraph Synthesis Agent"]
+    K --> L["Structured Financial & Credit Report"]
+
+    classDef input fill:#DBEAFE,stroke:#3B82F6,color:#1E40AF;
+    classDef agent fill:#DCFCE7,stroke:#22C55E,color:#166534;
+    classDef data fill:#F3E8FF,stroke:#A855F7,color:#6B21A8;
+    classDef output fill:#FEF3C7,stroke:#F59E0B,color:#92400E;
+
+    class A,B,C input;
+    class E,F,G,H agent;
+    class I,J,K data;
+    class L output;
 ```
+
+           STRUCTURED REPORT
+
 
 The orchestration layer uses LangGraph to route tasks to relevant agents and combine their findings.
 
@@ -118,30 +119,41 @@ Provides a command-line workflow for onboarding company documents.
 
 ## 5. Document Processing Pipeline
 
-```text
-Company PDF
-    |
-    v
-PDF Text Extraction
-    |
-    v
-Document Chunking
-    |
-    v
-Embedding Generation
-    |
-    v
-ChromaDB Indexing
-    |
-    v
-Company-Specific Retrieval
-    |
-    v
-LLM Analysis
-    |
-    v
-Evidence-Based Report
+
+```mermaid
+flowchart TD
+    A["Company Financial Statement / Credit PDF"]
+    B["PDF Text Extraction"]
+    C["Document Chunking"]
+    D["HuggingFace Embedding Model"]
+    E[("ChromaDB Vector Database")]
+    F["Company-Specific Metadata Filtering"]
+    G["Semantic + Keyword Retrieval"]
+    H["Evidence Ranking & Context Selection"]
+    I["Groq LLM"]
+    J["Evidence-Based Analytical Report"]
+
+    A --> B
+    B --> C
+    C --> D
+    D --> E
+    E --> F
+    F --> G
+    G --> H
+    H --> I
+    I --> J
+
+    classDef source fill:#DBEAFE,stroke:#3B82F6,color:#1E40AF;
+    classDef process fill:#DCFCE7,stroke:#22C55E,color:#166534;
+    classDef database fill:#F3E8FF,stroke:#A855F7,color:#6B21A8;
+    classDef output fill:#FEF3C7,stroke:#F59E0B,color:#92400E;
+
+    class A source;
+    class B,C,D,F,G,H,I process;
+    class E database;
+    class J output;
 ```
+
 
 Documents are tagged with company identifiers and document metadata to support company-specific retrieval.
 
