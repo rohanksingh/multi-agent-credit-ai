@@ -30,39 +30,36 @@ The application supports:
 ## 2. System Architecture
 
 
+flowchart TB
+    A["User Question"]
+    B["Main Orchestrator"]
+    C{"Agent Selection"}
+    D["Financial RAG Agent"]
+    E["Credit RAG Agent"]
+    F[("ChromaDB")]
+    G["Groq LLM Analysis"]
+    H["Synthesis Agent"]
+    I["Final Analytical Report"]
 
-```mermaid
-flowchart TD
-    A["User Question"] --> B["Main Orchestrator"]
+    A --> B --> C
+    C --> D
+    C --> E
+    D --> F
+    E --> F
+    F --> G --> H --> I
 
-    B --> C["Identify Company & User Intent"]
-    C --> D{"Select Required Agents"}
+    classDef input fill:#DBEAFE,stroke:#3B82F6,color:#1E40AF
+    classDef agent fill:#DCFCE7,stroke:#22C55E,color:#166534
+    classDef data fill:#F3E8FF,stroke:#A855F7,color:#6B21A8
+    classDef output fill:#FEF3C7,stroke:#F59E0B,color:#92400E
 
-    D --> E["Financial RAG Agent"]
-    D --> F["Credit RAG Agent"]
+    class A,B,C input
+    class D,E agent
+    class F,G,H data
+    class I output
 
-    E --> G["Financial Statement Retrieval"]
-    F --> H["Credit Report Retrieval"]
 
-    G --> I[("ChromaDB Vector Database")]
-    H --> I
 
-    I --> J["Groq LLM Analysis"]
-    J --> K["LangGraph Synthesis Agent"]
-    K --> L["Structured Financial & Credit Report"]
-
-    classDef input fill:#DBEAFE,stroke:#3B82F6,color:#1E40AF;
-    classDef agent fill:#DCFCE7,stroke:#22C55E,color:#166534;
-    classDef data fill:#F3E8FF,stroke:#A855F7,color:#6B21A8;
-    classDef output fill:#FEF3C7,stroke:#F59E0B,color:#92400E;
-
-    class A,B,C input;
-    class E,F,G,H agent;
-    class I,J,K data;
-    class L output;
-```
-
-           STRUCTURED REPORT
 
 
 The orchestration layer uses LangGraph to route tasks to relevant agents and combine their findings.
@@ -120,40 +117,30 @@ Provides a command-line workflow for onboarding company documents.
 ## 5. Document Processing Pipeline
 
 
-```mermaid
-flowchart TD
-    A["Company Financial
-Statement / Credit PDF"]
-    B["PDF Text Extraction"]
-    C["Document Chunking"]
-    D["HuggingFace Embedding Model"]
-    E[("ChromaDB Vector Database")]
-    F["Company-Specific Metadata Filtering"]
-    G["Semantic + Keyword Retrieval"]
-    H["Evidence Ranking & Context Selection"]
-    I["Groq LLM"]
-    J["Evidence-Based Analytical Report"]
+flowchart LR
+    A["Financial Statement<br/>or Credit Report"]
+    B["PDF Text<br/>Extraction"]
+    C["Document<br/>Chunking"]
+    D["Embedding<br/>Generation"]
+    E[("ChromaDB<br/>Vector Store")]
+    F["Company-Specific<br/>Retrieval"]
+    G["Evidence<br/>Ranking"]
+    H["Groq LLM<br/>Analysis"]
+    I["Analytical<br/>Report"]
 
-    A --> B
-    B --> C
-    C --> D
-    D --> E
-    E --> F
-    F --> G
-    G --> H
-    H --> I
-    I --> J
+    A --> B --> C --> D --> E
+    E --> F --> G --> H --> I
 
-    classDef source fill:#DBEAFE,stroke:#3B82F6,color:#1E40AF;
-    classDef process fill:#DCFCE7,stroke:#22C55E,color:#166534;
-    classDef database fill:#F3E8FF,stroke:#A855F7,color:#6B21A8;
-    classDef output fill:#FEF3C7,stroke:#F59E0B,color:#92400E;
+    classDef source fill:#DBEAFE,stroke:#3B82F6,color:#1E40AF
+    classDef process fill:#DCFCE7,stroke:#22C55E,color:#166534
+    classDef database fill:#F3E8FF,stroke:#A855F7,color:#6B21A8
+    classDef output fill:#FEF3C7,stroke:#F59E0B,color:#92400E
 
-    class A source;
-    class B,C,D,F,G,H,I process;
-    class E database;
-    class J output;
-```
+    class A source
+    class B,C,D,F,G,H process
+    class E database
+    class I output
+
 
 
 Documents are tagged with company identifiers and document metadata to support company-specific retrieval.
