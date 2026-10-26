@@ -1,0 +1,41 @@
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python virtual environments
+venv/
+.venv/
+gpu_env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Local vector database
+data/chroma_universal/
+chroma_db/
+chroma/
+
+# Uploaded financial and credit documents
+data/companies/
+data/financial_statements/
+data/credit_reports/
+*.pdf
+
+# Local company registry (may contain private data)
+data/company_registry.json
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+.env
+venv/
+__pycache__/
