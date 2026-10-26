@@ -118,7 +118,7 @@ Provides a command-line workflow for onboarding company documents.
 
 ## 5. Document Processing Pipeline
 
-
+```mermaid
 flowchart LR
     A["Financial Statement<br/>or Credit Report"]
     B["PDF Text<br/>Extraction"]
@@ -142,7 +142,7 @@ flowchart LR
     class B,C,D,F,G,H process
     class E database
     class I output
-
+```
 
 
 Documents are tagged with company identifiers and document metadata to support company-specific retrieval.
